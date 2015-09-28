@@ -1,0 +1,102 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Medusa API
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths 
+basePath: /v1
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  "/sender/{key}":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: hello_world
+    post:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: sender
+      parameters:
+        - name: key
+          in: path
+          description: "redisのキー"
+          required: true
+          type: string
+        - name: id
+          in: formData
+          description: "SkyWayのID"
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/SenderResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/caster/{key}":
+    # binds a127 app logic to a route
+    x-swagger-router-controller: hello_world
+    get:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: caster
+      parameters:
+        - name: key
+          in: path
+          description: "redisのキー"
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/CasterResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+# complex objects have schema definitions
+definitions:
+  SenderResponse:
+    required:
+      - success
+      - message
+    properties:
+      success:
+        type: boolean
+      message:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  CasterResponse:
+    required:
+      - success
+      - id
+      - message
+    properties:
+      success:
+        type: boolean
+      id:
+        type: string
+      message:
+        type: string
