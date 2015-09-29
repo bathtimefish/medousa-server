@@ -60,6 +60,7 @@ function sender(req, res) {
         "message": "invalid parametors"
     };
     res.status(400);
+    res.header("Access-Control-Allow-Origin", '*');
     res.json(ret);
     return;
   }
@@ -71,6 +72,7 @@ function sender(req, res) {
       "message": "OK"
   };
   // this sends back a JSON response which is a single string
+  res.header("Access-Control-Allow-Origin", '*');
   res.json(ret);
 }
 
@@ -83,6 +85,7 @@ function caster(req, res) {
         "message": "key not specified"
     };
     res.status(404);
+    res.header("Access-Control-Allow-Origin", '*');
     res.json(ret);
     return;
   }
@@ -92,6 +95,7 @@ function caster(req, res) {
         "message": err
       };
       res.status(400);
+      res.header("Access-Control-Allow-Origin", '*');
       res.json(ret);
       return;
     };
@@ -109,6 +113,7 @@ function caster(req, res) {
       res.status(404);
     }
     // this sends back a JSON response which is a single string
+    res.header("Access-Control-Allow-Origin", '*');
     res.json(ret);
   });
 }
